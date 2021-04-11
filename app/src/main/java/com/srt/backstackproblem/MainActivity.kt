@@ -46,17 +46,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        if (view_pager_main_activity?.currentItem == 0)
-        {
-            if (view_pager_main_fragment?.currentItem == 0)
-            {
-                val recyclerView = findViewById<RecyclerView>(R.id.listRecyclerView)
+       if (view_pager_main_activity?.currentItem == 0) {
+            if (view_pager_main_fragment?.currentItem == 0) {
+                val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_home)
                 val appbarHome = findViewById<AppBarLayout>(R.id.appbar_home)
                 val layoutManager = recyclerView?.layoutManager as LinearLayoutManager
                 when {
                     layoutManager.findFirstCompletelyVisibleItemPosition() == 0 -> {
                         super.onBackPressed()
                     }
+                    //This is never reached. It can be removed
                     supportFragmentManager.backStackEntryCount != 0 -> {
                         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                     }
@@ -66,21 +65,18 @@ class MainActivity : AppCompatActivity() {
                         //recyclerView.smoothScrollToPosition(0)
                     }
                 }
-            }
-            else if (supportFragmentManager.backStackEntryCount != 0) {
-                supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            }
-            else
-            {
+            } else if (supportFragmentManager.backStackEntryCount != 0) {
+                super.onBackPressed()
+            } else {
                 // Otherwise, select the previous step.
-                view_pager_main_fragment?.setCurrentItem(view_pager_main_fragment.currentItem - 1, false)
+                view_pager_main_fragment?.setCurrentItem(
+                        view_pager_main_fragment.currentItem - 1,
+                        false
+                )
             }
-        }
-        else if (supportFragmentManager.backStackEntryCount != 0) {
-            supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        }
-        else
-        {
+        } else if (supportFragmentManager.backStackEntryCount != 0) {
+            super.onBackPressed()
+        } else {
             // Otherwise, select the previous step.
             view_pager_main_activity?.currentItem = view_pager_main_activity.currentItem - 1
         }
